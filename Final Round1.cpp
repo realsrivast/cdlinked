@@ -16,18 +16,16 @@ node* head2 = NULL;
 
 int isprime(int n)
 {
-    if(n==1)
-        return 1;
-    else
-    {
-        for(int i=2;i<=sqrt(n);i++)
-        {
-            if(n%i==0)
-                return 0;
-            else
-                return 1;
-        }
-    }    
+	if(n==1||n==2)
+		return 1;
+	for(int i=2;i<=n/2;i++)
+	{
+		if(n%i==0)
+			return 0;
+		else
+			continue;
+	}
+	return 1;
 }
 
 void insert1( string name) 
@@ -115,8 +113,9 @@ void display(node *head)
     if(head==NULL)
     {
     	cout<<"Empty list";
-    	return;
 	}
+	else
+	{
     while(flag!=1)
     {
         if(temp->next!=head)
@@ -131,22 +130,27 @@ void display(node *head)
         
     }
     cout<<temp->name<<endl;
+	}
 }
-node* middle(node *head)
+node* middle()
 {
     int flag=0;
-    node* temp1=head,*temp2=head;
+    node* temp1=head2,*temp2=head2;
     while(flag!=1)
     {   
-        if((temp2->next)->next!=head)
+        if((temp2->next)->next==head2)
+        {
+        	flag=1;
+        	break;
+		}
+		else if(temp2->next!=head2)
         {
             temp2=(temp2->next)->next;
             temp1=temp1->next;
         }
-        else
+		else
         {
             flag=1;
-            temp1=temp1->next;
             break;
         }
     }
@@ -171,16 +175,47 @@ int count()
     }
     return c;
 }
+
+int count2()
+{
+    int c=1,flag=0;
+    node*temp=head2;
+    while(flag!=1)
+    {
+        if(temp->next!=head2)
+        {
+            c++;
+            temp=temp->next;
+        }
+        else
+        {
+            flag=1;
+        }
+        
+    }
+    return c;
+}
+
 void del()
 {
     node*start;
-    start=middle(head2);
-    node*temp=start;
+    start=middle();
+    cout<<"\nStarter: "<<start->name;
+    
     int m=count();
+    cout<<"\nCount: "<<m;
     while(start!=NULL)
     {
-        for(int i=0;i<m;i++)
-            temp=temp->next;
+        node*temp=start;
+        if(start->next==start)
+        {
+		delete start;
+		head2=NULL;
+		break;
+		}
+		for(int i=0;i<m;i++)
+        {temp=temp->next;
+    	}
         if(start->next!=start)
         {
             start=temp->next;
@@ -193,19 +228,24 @@ void del()
         temp->next=NULL;
         temp->prev=NULL;
         delete temp;
+        
+        
     }
+
 }
 
 int main()
 {
     Create();
     Inlist();
-    cout<<"Prime\n";
+    cout<<"Prime\n ["<<count()<<" numbers]: "<<endl;
     display(head1);
-    cout<<"Not Prime\n";
+    cout<<"---------------------------------"<<endl;
+    cout<<"Not Prime\n ["<<count2()<<" numbers]: "<<endl;
     display(head2);
-    del();
-    cout<<"final list\n";
-    display(head2);
+    cout<<"---------------------------------"<<endl;
+	del();
+	cout<<"\n List: "<<endl;
+	display(head2);
     return 0;
 }
