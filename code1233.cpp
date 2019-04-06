@@ -112,6 +112,11 @@ void display(node *head)
 {
     node *temp = head;
     int flag = 0;
+    if(head==NULL)
+    {
+    	cout<<"Empty list";
+    	return;
+	}
     while(flag!=1)
     {
         if(temp->next!=head)
@@ -127,13 +132,80 @@ void display(node *head)
     }
     cout<<temp->name<<endl;
 }
+node* middle(node *head)
+{
+    int flag=0;
+    node* temp1=head,*temp2=head;
+    while(flag!=1)
+    {   
+        if((temp2->next)->next!=head)
+        {
+            temp2=(temp2->next)->next;
+            temp1=temp1->next;
+        }
+        else
+        {
+            flag=1;
+            temp1=temp1->next;
+            break;
+        }
+    }
+    return temp1;
+}
+int count()
+{
+    int c=1,flag=0;
+    node*temp=head1;
+    while(flag!=1)
+    {
+        if(temp->next!=head1)
+        {
+            c++;
+            temp=temp->next;
+        }
+        else
+        {
+            flag=1;
+        }
+        
+    }
+    return c;
+}
+void del()
+{
+    node*start;
+    start=middle(head2);
+    node*temp=start;
+    int m=count();
+    while(start!=NULL)
+    {
+        for(int i=0;i<m;i++)
+            temp=temp->next;
+        if(start->next!=start)
+        {
+            start=temp->next;
+            (temp->prev)->next=temp->next;
+            (temp->next)->prev=temp->prev;
+        }
+        else
+            start=NULL;
+        
+        temp->next=NULL;
+        temp->prev=NULL;
+        delete temp;
+    }
+}
 
 int main()
 {
     Create();
     Inlist();
-    c
+    cout<<"Prime\n";
     display(head1);
+    cout<<"Not Prime\n";
+    display(head2);
+    del();
+    cout<<"final list\n";
     display(head2);
     return 0;
 }
